@@ -3,7 +3,6 @@ package com.ask.reservation_system;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,13 +63,13 @@ public class ReservationController {
         return ResponseEntity.ok(reservation);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReservation(
+    @DeleteMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelReservation(
             @PathVariable("id") Long id
     ) {
         try {
             log.info("Called deleteReservation id={}", id);
-            reservationService.deleteReservation(id);
+            reservationService.cancelReservation(id);
             return ResponseEntity.ok().build();
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(404)
