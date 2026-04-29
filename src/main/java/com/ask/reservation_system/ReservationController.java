@@ -1,5 +1,6 @@
 package com.ask.reservation_system;
 
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,27 +14,24 @@ import java.util.NoSuchElementException;
 @RequestMapping("/reservation")
 public class ReservationController {
 
+    // 1. Intall Logger
     private static final Logger log = LoggerFactory.getLogger(ReservationController.class);
 
+    // 2. Connect to Business Logic
     private final ReservationService reservationService;
-
 
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
+    // 3. Implement REST API
     @GetMapping("/{id}")
     public ResponseEntity<Reservation> getReservationById(
             @PathVariable("id") Long id
     ) {
-        try {
             log.info("Called getReservationById: id=" + id);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(reservationService.getReservationById(id));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(404)
-                    .build();
-        }
     }
 
     @GetMapping()
@@ -45,7 +43,7 @@ public class ReservationController {
 
     @PostMapping()
     public ResponseEntity<Reservation> createReservation(
-            @RequestBody Reservation reservationToCreate
+            @RequestBody @Valid Reservation reservationToCreate
             ) {
         log.info("createReservation");
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -56,7 +54,7 @@ public class ReservationController {
     @PutMapping("/{id}")
     public ResponseEntity<Reservation> updateReservation(
             @PathVariable("id") Long id,
-            @RequestBody Reservation reservationToUpdate
+            @RequestBody @Valid Reservation reservationToUpdate
     ) {
         log.info("Called updateReservation id={}, updateReservation={}", id, reservationToUpdate);
         var reservation = reservationService.updateReservation(id, reservationToUpdate);
@@ -67,14 +65,10 @@ public class ReservationController {
     public ResponseEntity<Void> cancelReservation(
             @PathVariable("id") Long id
     ) {
-        try {
-            log.info("Called deleteReservation id={}", id);
-            reservationService.cancelReservation(id);
-            return ResponseEntity.ok().build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(404)
-                    .build();
-        }
+        log.info("Called deleteReservation id={}", id);
+        reservationService.cancelReservation(id);
+        return ResponseEntity.ok().build();
+
     }
 
     @PostMapping("/{id}/approve")

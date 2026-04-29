@@ -10,14 +10,17 @@ import java.util.*;
 
 @Service
 public class ReservationService {
+    // 1. Intall Logger
     private static final Logger log = LoggerFactory.getLogger(ReservationService.class);
 
+    // 2. Connect to DB
     private final ReservationRepository repository;
 
     public ReservationService(ReservationRepository repository) {
         this.repository = repository;
     }
 
+    // 3. Implement business logic
     public Reservation getReservationById(Long id) {
 
         ReservationEntity reservationEntity =  repository.findById(id)
@@ -37,7 +40,7 @@ public class ReservationService {
         if (reservationToCreate.id() != null) {
             throw new IllegalArgumentException("Id should be empty");
         }
-        if (reservationToCreate.status() != null) {
+        if (reservationToCreate.status() != null) { // Todo: Почему статус запроса не должен быть null?
             throw new IllegalArgumentException("Id should be empty");
         }
         var entityToSave = new ReservationEntity(
@@ -81,7 +84,7 @@ public class ReservationService {
 //        repository.deleteById(id);
     }
 
-    public Reservation approveReservation(Long id) {
+    public Reservation approveReservation(Long id) { // Todo: Разобрать ничего не понятно для чего мы делаем isReservationConflict()?
         var reservationEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found reservation by id = " + id));
 
