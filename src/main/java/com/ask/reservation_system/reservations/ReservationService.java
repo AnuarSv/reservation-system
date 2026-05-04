@@ -1,4 +1,4 @@
-package com.ask.reservation_system;
+package com.ask.reservation_system.reservations;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -120,7 +121,9 @@ public class ReservationService {
 
 
     private boolean isReservationConflict(
-            ReservationEntity reservation
+            Long roomId,
+            LocalDate startDate,
+            LocalDate endDate
     ) {
         var allReservations = repository.findAll();
         for (ReservationEntity existingReservation : allReservations) {

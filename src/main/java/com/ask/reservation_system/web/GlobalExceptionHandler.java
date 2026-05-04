@@ -1,5 +1,6 @@
-package com.ask.reservation_system;
+package com.ask.reservation_system.web;
 
+import com.ask.reservation_system.reservations.ReservationController;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

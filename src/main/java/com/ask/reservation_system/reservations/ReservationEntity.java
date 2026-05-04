@@ -1,4 +1,4 @@
-package com.ask.reservation_system;
+package com.ask.reservation_system.reservations;
 
 import jakarta.persistence.*;
 
